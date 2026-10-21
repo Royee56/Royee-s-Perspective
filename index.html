@@ -547,7 +547,7 @@ img{display:block;max-width:100%}
       <!-- 中：小人 + 贴纸 -->
       <div class="figure-col reveal" id="figCol">
         <div class="stagebox" id="stagebox">
-          <img class="char" id="char" src="assets/character.webp" alt="3D Q版角色插画">
+          <img class="char" id="char" src="assets-img/character.webp" alt="3D Q版角色插画">
           <div class="lid l"></div><div class="lid r"></div>
           <div class="snap" data-snap="0" style="left:9%;top:31%"></div>
           <div class="snap" data-snap="1" style="left:91%;top:31%"></div>
@@ -623,7 +623,7 @@ img{display:block;max-width:100%}
 <!-- 二维码弹层 -->
 <div class="modal" id="modal">
   <div class="modal-in">
-    <img src="assets/qr-puppet.png" alt="《奇幻又冒险的木偶世界》二维码">
+    <img src="assets-img/qr-puppet.png" alt="《奇幻又冒险的木偶世界》二维码">
     <h4 class="zh">奇幻又冒险的木偶世界</h4>
     <p>用手机扫一扫，进入沉浸式木偶世界</p>
     <button class="modal-x" id="modalX">知道了</button>
@@ -646,8 +646,8 @@ img{display:block;max-width:100%}
 </div>
 
 <div class="guard" id="guard">
-  <b>⚠ 资源未能载入</b>
-  <p>检测到视频或图片文件缺失。请确认 <code>assets</code> 文件夹与本文件在同一目录下，且文件夹被完整拷贝（仅拷贝 index.html 会导致所有素材丢失）。</p>
+  <b id="guardTitle">⚠ 资源未能载入</b>
+  <p id="guardBody">请确认资源文件夹已与本文件一同上传。</p>
 </div>
 
 <div class="toast" id="toast"></div>
@@ -700,22 +700,22 @@ const CATEGORIES = [
     isVideo:true,
     works:[
       {t:'AIGC 嵌入《文物遗音》', r:'脚本策划 / 素材生成 / 剪辑', dur:'0:49',
-       poster:'works/v1-wenwuyin.jpg', src:'videos/v1-wenwuyin.mp4', tall:false,
+       poster:'works/v1-wenwuyin.jpg', src:'v1-wenwuyin.mp4', tall:false,
        d:'大创项目辅助材料，景观、场馆、人物画面均为<em>AI 生成</em>，剪辑中注重探案悬疑感的体现，如水滴声、脚步声、敲钟等。'},
       {t:'广告短片《雀巢茶萃》', r:'剪辑 / 辅助拍摄', dur:'0:33',
-       poster:'works/v2-nestle.jpg', src:'videos/v2-nestle.mp4', tall:false,
+       poster:'works/v2-nestle.jpg', src:'v2-nestle.mp4', tall:false,
        d:'小组创意星球广告片拍摄，选取雀巢茶萃策略专题，以产品口味<em>多元且清爽</em>为立意点进行创意展示，每种口味的 slogan 都以对仗呈现，短、平、快。'},
       {t:'短剧《柠檬巴斯克》', r:'出镜 / 剪辑 / 辅助拍摄', dur:'1:40',
-       poster:'works/v3-lemon.jpg', src:'videos/v3-lemon.mp4', tall:true,
+       poster:'works/v3-lemon.jpg', src:'v3-lemon.mp4', tall:true,
        d:'系"河马杯"短剧参赛作品，紧跟短剧热潮，加入<em>青春校园感</em>的配文与画面，呈现一次秋季与甜品的巧妙搭配。'},
       {t:'短剧《不知道女士》', r:'出镜 / 剪辑', dur:'5:01',
-       poster:'works/v4-madam.jpg', src:'videos/v4-madam.mp4', tall:true,
+       poster:'works/v4-madam.jpg', src:'v4-madam.mp4', tall:true,
        d:'小组课程作业，以"不知道女士"与"点单"两个单元<em>隐喻式</em>呈现当代大学生们的"迷茫"，对个人发展的忧虑。'},
       {t:'微视频《404房间》', r:'策划 / 出镜 / 剪辑', dur:'2:09',
-       poster:'works/v6-404room.jpg', src:'videos/t404.mp4', tall:false,
+       poster:'works/v6-404room.jpg', src:'t404.mp4', tall:false,
        d:'微电影创作练习，从策划到成片<em>全流程独立完成</em>。'},
       {t:'数码评测 IQOO Z11 Turbo', r:'一条龙服务', dur:'2:00',
-       poster:'works/v5-iqoo.jpg', src:'videos/v5-iqoo.mp4', tall:false,
+       poster:'works/v5-iqoo.jpg', src:'v5-iqoo.mp4', tall:false,
        d:'从选题策划、脚本撰写、实拍操作到后期剪辑与发布<em>全流程独立完成</em>的数码产品评测。'}
     ]
   },
@@ -843,9 +843,9 @@ function render(i,previewOnly){
   else if(c.isVideo) desc = (feat.r ? '负责：'+feat.r+'　·　' : '') + '点击缩略图即可播放';
   $('#dDesc').innerHTML = desc;
   $('#dThumbs').innerHTML = c.works.slice(0,3).map((w,k)=>{
-    if(w.multi) return `<div class="thumb" style="background-image:url('assets/${w.multi[0]}')" data-img="assets/${w.multi[0]}" data-cap="${w.t} · 1"><span class="pl">⊕</span></div>`;
-    if(w.src)  return `<div class="thumb" data-vid="assets/${w.src}" data-poster="assets/${w.poster}" data-cap="${w.t}" data-role="${w.r||''}" style="background-image:url('assets/${w.poster}')"><span class="pl">▶</span></div>`;
-    if(w.img)  return `<div class="thumb" style="background-image:url('assets/${w.img}')" data-img="assets/${w.img}" data-cap="${w.t}"><span class="pl">⊕</span></div>`;
+    if(w.multi) return `<div class="thumb" style="background-image:url('assets-img/${w.multi[0]}')" data-img="assets-img/${w.multi[0]}" data-cap="${w.t} · 1"><span class="pl">⊕</span></div>`;
+    if(w.src)  return `<div class="thumb" data-vid="assets-vid/${w.src}" data-poster="assets-img/${w.poster}" data-cap="${w.t}" data-role="${w.r||''}" style="background-image:url('assets-img/${w.poster}')"><span class="pl">▶</span></div>`;
+    if(w.img)  return `<div class="thumb" style="background-image:url('assets-img/${w.img}')" data-img="assets-img/${w.img}" data-cap="${w.t}"><span class="pl">⊕</span></div>`;
     return `<div class="thumb" style="background:${c.color}"></div>`;
   }).join('');
   $('#dTags').innerHTML = c.tags.map(t=>`<span class="pill d-tag">#${t}</span>`).join('');
@@ -868,7 +868,7 @@ function imgList(c){
     if(w.multi){
       return `<div class="w-item">
         <div class="w-multi">
-          ${w.multi.map((m,i)=>`<div class="w-thumb${w.tall?' tall':''}" data-img="assets/${m}" data-cap="${w.t} · ${i+1}" style="background-image:url('assets/${m}')"><span class="pl">⊕</span></div>`).join('')}
+          ${w.multi.map((m,i)=>`<div class="w-thumb${w.tall?' tall':''}" data-img="assets-img/${m}" data-cap="${w.t} · ${i+1}" style="background-image:url('assets-img/${m}')"><span class="pl">⊕</span></div>`).join('')}
         </div>
         <div class="w-body">
           <div class="w-title">${w.t}</div>
@@ -879,9 +879,9 @@ function imgList(c){
     // 视频作品
     if(w.src){
       return `<div class="w-item">
-        <div class="w-thumb${w.tall?' tall':''}" data-vid="assets/${w.src}"
-             data-poster="assets/${w.poster}" data-cap="${w.t}" data-role="${w.r||''}"
-             style="background-image:url('assets/${w.poster}')">
+        <div class="w-thumb${w.tall?' tall':''}" data-vid="assets-vid/${w.src}"
+             data-poster="assets-img/${w.poster}" data-cap="${w.t}" data-role="${w.r||''}"
+             style="background-image:url('assets-img/${w.poster}')">
           <span class="pm">▶</span>${w.dur?`<span class="dur">${w.dur}</span>`:''}
         </div>
         <div class="w-body">
@@ -893,7 +893,7 @@ function imgList(c){
     }
     // 图片作品
     return `<div class="w-item">
-      <div class="w-thumb${w.tall?' tall':''}" data-img="assets/${w.img}" data-cap="${w.t}" style="background-image:url('assets/${w.img}')">
+      <div class="w-thumb${w.tall?' tall':''}" data-img="assets-img/${w.img}" data-cap="${w.t}" style="background-image:url('assets-img/${w.img}')">
         <span class="pl">⊕</span>
       </div>
       <div class="w-body">
@@ -906,7 +906,7 @@ function imgList(c){
 function webList(c){
   return c.works.map((w,k)=>{
     if(w.qr) return `<div class="w-qr" data-qr="1" style="cursor:pointer">
-        <img src="assets/qr-puppet.png" alt="二维码">
+        <img src="assets-img/qr-puppet.png" alt="二维码">
         <div class="w-body"><div class="w-title">0${k+1} ${w.t}</div>
         <div class="w-desc">${w.d}</div>
         <span class="w-role">点击放大扫码</span></div></div>`;
@@ -1049,20 +1049,31 @@ $$('[data-go]').forEach(b=>b.addEventListener('click',()=>{
 
 /* ---------- 资源完整性检测 ---------- */
 (function checkAssets(){
-  const probes=[{
-    url:'assets/videos/v1-wenwuyin.mp4', type:'video'
-  },{
-    url:'assets/works/contemporary-01.webp', type:'img'
-  },{
-    url:'assets/character.webp', type:'img'
-  }];
-  let failed=0;
+  const G=$('#guard'), Gt=$('#guardTitle'), Gb=$('#guardBody');
+  const probes=[
+    {url:'assets-img/character.webp', type:'img'},
+    {url:'assets-img/works/contemporary-01.webp', type:'img'},
+    {url:'assets-vid/v1-wenwuyin.mp4', type:'video'}
+  ];
+  let imgFail=0, vidFail=0, vidOk=false;
   probes.forEach(p=>{
     const el = p.type==='img' ? new Image() : document.createElement('video');
     el.preload='metadata';
-    el.onerror=()=>{ failed++; if(failed>=2) $('#guard').classList.add('on'); };
+    el.onload=()=>{ if(p.type==='video') vidOk=true; };
+    el.onerror=()=>{ if(p.type==='img') imgFail++; else vidFail++; };
     el.src=p.url;
   });
+  setTimeout(()=>{
+    if(imgFail>0){
+      Gt.textContent='⚠ 图片资源未能载入';
+      Gb.innerHTML='请确认 <code>assets-img</code> 文件夹已上传到仓库根目录，且与本文件同级。<br>图片批次共 18 个文件，约 1.4MB。';
+      G.classList.add('on');
+    }else if(vidFail>0 && !vidOk){
+      Gt.textContent='⚠ 视频资源尚未上传';
+      Gb.innerHTML='图片已就位，但 <code>assets-vid</code> 还没有上传（第二批，共 6 个 mp4，约 57MB）。<br>上传后视频缩略图即可点击播放。';
+      G.classList.add('on');
+    }
+  },1600);
 })();
 
 /* ---------- 灯箱 / 视频弹层 ---------- */
